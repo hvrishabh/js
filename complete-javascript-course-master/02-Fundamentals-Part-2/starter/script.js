@@ -1,113 +1,123 @@
-// l32.... Strict Mode in JS
-
+/////////////////.................L47 48  for loop.........
 "use strict";
 
-// let hasDriversLicence = false;
-// const passTest = true;
+// for loop keeps running while the condition is True
 
-// if (passTest) hasDriversLicence = true;
+// const jonas = [
+//   "Jonas",
+//   "Schmedtmann",
+//   2037 - 1991,
+//   "teacher",
+//   ["Michael", "peter", "Steven"],
+//   true,
+// ];
 
-// if (hasDriversLicence) console.log("i can drive");
+// const types = [];
 
-////////..........L 33 functions ...............
+// for (let i = 0; i < jonas.length; i++) {
+//   // reading from jonas array
+//   console.log(jonas[i], typeof jonas[i]);
 
-// function is a piece of code which can be reused;
-
-// function logger() {
-//   console.log("My name is Jonas.");
+//   // Filling types[] array
+//   // types[i] = typeof jonas[i];
+//   types.push(typeof jonas[i]);
 // }
 
-// // calling ,running, invoking the function .
-// logger();
+// console.log(types);
 
-// function fruitProcessor(apples, oranges) {
-//   console.log(apples, oranges);
-//   let juice = `Juice with ${apples} apples and ${oranges} oranges.`;
-//   return juice;
+// // // .......................................
+// const years = [1991, 2007, 1992, 2020];
+// const ages = [];
+
+// for (let i = 0; i < years.length; i++) {
+//   ages.push(2037 - years[i]);
+//   // ages[i] = Date - years[i];
+// }
+// console.log(ages);
+
+// // continue and break;
+
+// console.log("-----------ONLY STRINGS..................");
+// for (let i = 0; i < jonas.length; i++) {
+//   if (typeof jonas[i] !== "string") continue;
+//   console.log(jonas[i], typeof jonas[i]);
 // }
 
-// let appleJuice = fruitProcessor();
-// console.log(appleJuice);
+///////////////................Reverse lOOPING.................
 
-// console.log(fruitProcessor(3, 4));
+// const jonas = [
+//   "Jonas",
+//   "Schmedtmann",
+//   2037 - 1991,
+//   "teacher",
+//   ["Michael", "peter", "Steven"],
+//   true,
+// ];
 
-/////////.......... L 34  Functional Decleration and Expression ...................
+// // 0,1,2,3,...
+// // 4,3,2,1....0
 
-// // we can call function declartion  before they are defined in the code.
-// function calcAge1(birthYear = 2000) {
-//   return 2037 - birthYear;
+// for (let i = jonas.length - 1; i >= 0; i--) {
+//   console.log(i, jonas[i]);
 // }
 
-// const age1 = calcAge1(1991);
-// console.log(age1);
+// /////////.................. Nesting LOOP...........
 
-// // ....... Another method to deckare the function
-// // Anonymous function
-
-// // this below code is an expression , which we have a value , and we have stored this into the calcAge2 variable .
-
-// // we can call function declartion  before they are defined in the code.
-// // but function expressions can not be called before they are defined
-
-// const calcAge2 = function (birthYear) {
-//   return 2037 - birthYear;
-// };
-
-// const age2 = calcAge2(1991);
-// console.log(age1, age2);
-
-//////////////............. L 35 Arrow functions......
-
-// const calcAge2 = function (birthYear) {
-//   return 2037 - birthYear;
-// };
-
-// //Arrow function
-// const calcAge3 = (birthYear) => 2037 - birthYear;
-// const age3 = calcAge3(1991);
-// console.log(age3);
-
-// const yearsUntillRetirement = (birthYear, firstName) => {
-//   const age = 2037 - birthYear;
-//   const retirement = 65 - age;
-//   return `The name is ${firstName} and the retirement age is ${retirement}`;
-// };
-
-// console.log(yearsUntillRetirement(1991, "Ramu"));
-
-////////////................ L 36 Calling a function Inside the other function ..........
-
-// function cutFruitPieces(fruit) {
-//   return fruit * 4;
+// for (let Exercise = 1; Exercise < 4; Exercise++) {
+//   console.log(`..............Starting excercise ${Exercise}`);
+//   for (let rep = 1; rep < 5; rep++) {
+//     console.log(`Lifing weight repetition ${rep}`);
+//   }
 // }
 
-// function fruitProcessor(apples, oranges) {
-//   const applePieces = cutFruitPieces(apples);
-//   const orangePieces = cutFruitPieces(oranges);
-
-//   console.log(applePieces, orangePieces);
-//   let juice = `Juice with ${applePieces} pieces of apples and ${orangePieces} pieces of oranges.`;
-//   return juice;
+/////////////////////////////////........... L 49 while loop....................
+// for (let rep = 1; rep < 5; rep++) {
+//   console.log(`Lifing weight repetition ${rep}`);
 // }
 
-// const mixJuice = fruitProcessor(5, 6);
-// console.log(mixJuice);
+// let rep = 1;
+// while (rep <= 10) {
+//   console.log(`Lifing weight repetition ${rep}`);
+//   rep++;
+// }
 
-////////////////////////...................... L 37  REviewing functions ................
+// let dice = Math.trunc(Math.random() * 6);
+// console.log(dice);
 
-const calcage = function (birthYear) {
-  return 2037 - birthYear;
-};
-const yearsUntillRetirement = function (birthYear, firstName) {
-  const age = calcage(birthYear);
-  const retirement = 65 - age;
+// while (dice !== 6) {
+//   console.log(`You rolled a ${dice}`);
+//   dice = Math.trunc(Math.random() * 6) + 1;
+// }
 
-  if (retirement > 0) {
-    return retirement;
-  } else {
-    return -1;
-  }
+//////////////////.......................coding challenge 4...........
+
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+
+const tips = [];
+const totals = [];
+
+const calcTip = function (bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
 };
 
-console.log(yearsUntillRetirement(1991, "Ram"));
-console.log(yearsUntillRetirement(1970, "Mike"));
+const fun1 = function () {
+  return +10;
+};
+
+// for (let i = 0; i < bills.length; i++) {
+//   tips[i] = calcTip(bills[i]);
+//   totals[i] = bills[i] + tips[i];
+
+//   // tips.push(calcTip(bills[i]));
+//   // console.log(totals);
+//   // return totals.push(bills[i] + tips[i]);
+// }
+// console.log(totals);
+
+//////////////////////////............Foreach in JS.......
+let demo;
+const test = bills.forEach((bill) => {
+  demo = calcTip(bill);
+
+  console.log(bill, demo);
+});
