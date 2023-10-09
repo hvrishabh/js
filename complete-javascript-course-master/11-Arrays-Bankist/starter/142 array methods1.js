@@ -65,31 +65,51 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
-///////////////l 146 ..........
-// namkist.nelify.app
+// slice
 
-//////////////////////// l 147 DOM manupulation
-const displayMovements = function (movements) {
-  movements.forEach(function (mov, i) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = `
-    <div class="movements__row">
-          <div class="movements__type movements__type--${type}"> ${
-      i + 1
-    } ${type}</div>
-          <div class="movements__value">${mov}</div>
-     </div>`;
-    containerMovements.insertAdjacentHTML('afterbegin', html);
-  });
-};
-displayMovements(account1.movements);
+let arr = ['a', 'b', 'c', 'd', 'e'];
+console.log(arr.slice(2)); // ['c','d','e']
+// it returns the new array
+console.log(arr.slice(2, 4)); // ['c','d']  // index 2 is included but 4 index value is not included
+console.log(arr.slice(-2)); //[d,e]
+console.log(arr.slice(2, -2)); //[c]
+console.log(arr.slice(-1)); //[e]
+
+console.log(arr.slice()); // to create a shallow copy of the array
+
+//SPLICE // it changes / mutate the origional array
+// it is mainely used to delete one or more items of the array
+// console.log(arr.splice(3));
+arr.splice(-1);
+arr.splice(1, 2); // 2nd parameter is based on the no of values to be deleted
+console.log(arr);
+
+// REVERSE
+// Reverese method mutates the original array
+arr = ['a', 'b', 'c', 'd', 'e'];
+const arr2 = ['j', 'i', 'h', 'g', 'f'];
+console.log(arr2.reverse());
+console.log(arr2);
+
+// Concat
+// it does not mutate the original array here.
+
+// 1st is the method on which method is called and 2nd is the one which we pass into the concat method
+const Letters = arr.concat(arr2);
+console.log(Letters);
+
+console.log([...arr, ...arr2]);
+
+// JOIN
+// this will result in a string
+console.log(Letters.join('-'));
