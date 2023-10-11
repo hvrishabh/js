@@ -102,50 +102,68 @@ displayMovements(account1.movements);
 // console.log(containerMovements.innerHTML);
 // console.log(containerMovements.textContent);
 
-////////////////////// computing usernames L 151....
-
-// const user = 'Steven Thomas Williams'; // stw
 ////////////////////////////////////////////////
 
-const createUsernames = function (accs) {
-  accs.forEach(function (acc) {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0].split('')[0])
-      .join('');
-  });
-};
+/////////.............  L 150 Array.map()..........
 
-createUsernames(accounts);
-console.log(accounts);
+// map method returns a new array
 
-// we use foreach if we just want to loop over and dont need to create a new array,
-// if we require to create a new array , we have to use map method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// console.log(initials);
-// const demo = console.log(initials[0].split('')[0]);
+const eurToUSD = 1.1;
 
-// const usernam = username.map(function (name) {
-//   return name[0].split('')[0];
-// });
-// console.log(test.join(''));
-
-// // with forEach ........... loop
-// const test1 = [];
-// initials.forEach(function (value) {
-//   return test1.push(value[0].split('')[0]);
+// const movementsUSD = movements.map(function (mov) {
+//   return mov * eurToUSD;
 // });
 
-// console.log(test1.join(''));
+// // // with arrow function , simplify this
+const movementsUSD = movements.map(mov => mov * eurToUSD);
 
-const one = 'hitesh kumar verma';
-const oneUser = one
-  .toLowerCase()
-  .split(' ')
-  .map(function (value) {
-    value[0].split('')[0];
-  })
-  .join('');
+// callback function also gets as an argument the current array element
+console.log(movements);
+console.log(movementsUSD);
 
-console.log(oneUser);
+// // with for-of loop
+
+// const movementsUSDforof = [];
+// for (const mov of movements) {
+//   movementsUSDforof.push(mov * eurToUSD);
+// }
+// console.log(movementsUSDforof);
+
+////////////////////////////////......................
+
+// map method also have access to (value,index and complete array)
+
+const movementsDescription = movements.map(
+  (mov, i, arr) =>
+    // {
+    //   if (mov > 0) {
+    //     return `Movement ${i + 1} You desposited ${mov}`;
+    //   } else {
+    //     return `Movement ${i + 1} You withdraw ${Math.abs(mov)}`;
+    //   }
+    // }
+    `Movement ${i + 1} : You ${mov > 0 ? ' deposited' : 'withdraw'} ${Math.abs(
+      mov
+    )}}`
+);
+console.log(movementsDescription);
+
+// if we use consol.log(then it will not form an array and will return single items)
+
+// but if we retrn then a new array is formed as all the elements are there in the new array.
+
+// with foreach method everything was visible to the console, i.e it creates a side effect
+
+const empArray = [];
+const test = movements.forEach((mov, i, arr) => {
+  if (mov > 0) {
+    return empArray.push(`Movement ${i + 1} You desposited ${mov}`);
+  } else {
+    return empArray.push(`Movement ${i + 1} You withdraw ${Math.abs(mov)}`);
+  }
+});
+// console.log(movementsDescription1);
+console.log(test); // it returns undefined
+console.log(empArray);
