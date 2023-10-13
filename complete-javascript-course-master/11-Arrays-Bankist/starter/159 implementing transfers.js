@@ -81,12 +81,11 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // const eurToUSD = 1.11;
 
 //////////////////////// l 147 DOM manupulation
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (movements) {
   containerMovements.innerHTML = ''; // to clear all the static html
+  // .textContent = "";
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
-
-  movs.forEach(function (mov, i) {
+  movements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -208,14 +207,14 @@ let currentAccount;
 btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting
   e.preventDefault();
-  // console.log('LOGIN');
+  console.log('LOGIN');
 
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
   console.log(currentAccount);
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    // console.log('login');
+    console.log('login');
     // display ui and wlcm message
     labelWelcome.textContent = `Welcome back , ${
       currentAccount.owner.split(' ')[0]
@@ -249,7 +248,7 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.balance >= amount &&
     reciverAcc?.username !== currentAccount.username
   ) {
-    // console.log('transfer');
+    console.log('transfer');
 
     // Doing the transfer
     currentAccount.movements.push(-amount);
@@ -259,163 +258,4 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
-//////////////////////. from l 161........loan feature
-
-//  loan given only if there is 10% of request amt in amy deposit
-btnLoan.addEventListener('click', function (e) {
-  e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
-
-  if (amount > 0 && currentAccount.movements.some(mov => mov > amount / 10)) {
-    // add movement
-    currentAccount.movements.push(amount);
-    // upate UI
-    updateUI(currentAccount);
-  }
-  inputLoanAmount.value = '';
-});
-
-///////////////////////.................. l 160 findIndex ........
-////////////.......... implementing close account feature.........
-
-btnClose.addEventListener('click', function (e) {
-  e.preventDefault();
-  // console.log('delete');
-
-  if (
-    inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
-  ) {
-    const index = accounts.findIndex(
-      acc => acc.username === currentAccount.username
-    );
-    // console.log(index);
-    accounts.splice(index, 1);
-
-    //hide UI
-    containerApp.style.opacity = 0;
-  }
-
-  inputCloseUsername.value = inputClosePin.value = '';
-  inputClosePin.blur();
-  labelWelcome.textContent = `Login to get Started `;
-});
-
-///////////////////////////////.......implementing sorting method using l 162.......
-
-let sorted = false;
-btnSort.addEventListener('click', function (e) {
-  e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
-  sorted = !sorted;
-});
-
-////////////////////////// 166............
-////////...............Array method practise ........
-
-//1.
-// const bankDepositSum = accounts.map((val, index) => val.movements).flat();
-
-const bankDepositSum = accounts
-  .flatMap((val, index) => val.movements)
-  .filter(mov => mov > 0)
-  .reduce((acc, mov) => acc + mov, 0);
-
-console.log(bankDepositSum);
-
-///////////////////
-// 2. deposits with aleast 1000 value
-
-const numDeposit1000 = accounts
-  .flatMap(val => val.movements)
-  .filter(mov => mov >= 1000).length;
-console.log(numDeposit1000);
-// or
-const numDeposit1000s = accounts
-  .flatMap(val => val.movements)
-  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0); // ++count= count+1 // preceding plus operator
-console.log(numDeposit1000s);
-
-// prefix ++a and postfix operator a++,
-let a = 10;
-console.log(a++);
-console.log(++a);
-
-// 3. creating object with sum of withdrawl and deposits
-
-// const sums = accounts
-//   .flatMap(acc => acc.movements)
-//   .reduce(
-//     (sum, cur) => {
-//       cur > 0 ? (sum.deposits += cur) : (sum.withdrawls += cur);
-//       return sum;
-//     },
-//     { deposits: 0, withdrawls: 0 } // for the initializer we have used the object, we could have used an empty object {} , but rather we choose the object with deposits and withdrawls
-//   );
-// console.log(sums);
-
-// or using destructuring
-
-const { deposits, withdrawls } = accounts
-  .flatMap(acc => acc.movements)
-  .reduce(
-    (sum, cur) => {
-      sum[cur > 0 ? 'deposits' : 'withdrawls'] += cur;
-      return sum;
-    },
-    { deposits: 0, withdrawls: 0 }
-  );
-console.log(deposits, withdrawls);
-
-// 4.
-// captialize the first letter of each word in a sentence.
-
-// title cased
-
-// this is a nice title -> This Is a Nice Title
-
-// const convertTitleCase = function (title) {
-//   const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
-
-//   const titleCase = title
-//     .toLowerCase()
-//     .split(' ')
-//     .map(word =>
-//       exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
-//     )
-//     .join(' ');
-
-//   return titleCase;
-// };
-
-const convertTitleCase = function (title) {
-  const captialize = str => str[0].toUpperCase() + str.slice(1);
-
-  const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
-
-  const titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : captialize(word)))
-    .join(' ');
-
-  return captialize(titleCase);
-};
-console.log(convertTitleCase('this is a nice title'));
-console.log(convertTitleCase('and here is another title with an ExamPle'));
-
-// /////////////////////////////////
-// let arr = [2, 23, 23, 14, 6, 3, 20, 5];
-// let aa;
-// let bb;
-
-// for (let i = 0; i < arr.length; i++) {
-//   for (let j = 0; j < arr.length; j++) {
-//     aa = arr[j];
-//     bb = arr[j + 1];
-//     if (aa > bb) {
-//       bb = aa;
-//     }
-//     console.log(aa);
-//   }
-// }
+//////////////////////./////////////////

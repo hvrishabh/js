@@ -81,12 +81,11 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // const eurToUSD = 1.11;
 
 //////////////////////// l 147 DOM manupulation
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (movements) {
   containerMovements.innerHTML = ''; // to clear all the static html
+  // .textContent = "";
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
-
-  movs.forEach(function (mov, i) {
+  movements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -301,121 +300,35 @@ btnClose.addEventListener('click', function (e) {
   labelWelcome.textContent = `Login to get Started `;
 });
 
-///////////////////////////////.......implementing sorting method using l 162.......
+///////////////////////////////
+////////////// .......l162 flat and flatMap .........method.........
 
-let sorted = false;
-btnSort.addEventListener('click', function (e) {
-  e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
-  sorted = !sorted;
-});
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// to take out values form the nested arrays we use flat and flatMap() methods
+// there is no callback function and it does not mutate the array,
 
-////////////////////////// 166............
-////////...............Array method practise ........
+// we can pass the value of depth to be solved in flat method () as argument
 
-//1.
-// const bankDepositSum = accounts.map((val, index) => val.movements).flat();
+console.log(arr);
+console.log(arr.flat());
+console.log(arr);
 
-const bankDepositSum = accounts
-  .flatMap((val, index) => val.movements)
-  .filter(mov => mov > 0)
+const arrd = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrd.flat(2));
+
+///////////////////////
+const overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overallBalance);
+
+//// using map() and flat() is most common operation in js, therefore a flatmap() method was introduced , which include both method into one
+
+//flatmap()
+// but flatmap() goes only one level deep in arrays
+const overallBalance2 = accounts
+  .flatMap(acc => acc.movements)
   .reduce((acc, mov) => acc + mov, 0);
 
-console.log(bankDepositSum);
-
-///////////////////
-// 2. deposits with aleast 1000 value
-
-const numDeposit1000 = accounts
-  .flatMap(val => val.movements)
-  .filter(mov => mov >= 1000).length;
-console.log(numDeposit1000);
-// or
-const numDeposit1000s = accounts
-  .flatMap(val => val.movements)
-  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0); // ++count= count+1 // preceding plus operator
-console.log(numDeposit1000s);
-
-// prefix ++a and postfix operator a++,
-let a = 10;
-console.log(a++);
-console.log(++a);
-
-// 3. creating object with sum of withdrawl and deposits
-
-// const sums = accounts
-//   .flatMap(acc => acc.movements)
-//   .reduce(
-//     (sum, cur) => {
-//       cur > 0 ? (sum.deposits += cur) : (sum.withdrawls += cur);
-//       return sum;
-//     },
-//     { deposits: 0, withdrawls: 0 } // for the initializer we have used the object, we could have used an empty object {} , but rather we choose the object with deposits and withdrawls
-//   );
-// console.log(sums);
-
-// or using destructuring
-
-const { deposits, withdrawls } = accounts
-  .flatMap(acc => acc.movements)
-  .reduce(
-    (sum, cur) => {
-      sum[cur > 0 ? 'deposits' : 'withdrawls'] += cur;
-      return sum;
-    },
-    { deposits: 0, withdrawls: 0 }
-  );
-console.log(deposits, withdrawls);
-
-// 4.
-// captialize the first letter of each word in a sentence.
-
-// title cased
-
-// this is a nice title -> This Is a Nice Title
-
-// const convertTitleCase = function (title) {
-//   const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
-
-//   const titleCase = title
-//     .toLowerCase()
-//     .split(' ')
-//     .map(word =>
-//       exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
-//     )
-//     .join(' ');
-
-//   return titleCase;
-// };
-
-const convertTitleCase = function (title) {
-  const captialize = str => str[0].toUpperCase() + str.slice(1);
-
-  const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
-
-  const titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : captialize(word)))
-    .join(' ');
-
-  return captialize(titleCase);
-};
-console.log(convertTitleCase('this is a nice title'));
-console.log(convertTitleCase('and here is another title with an ExamPle'));
-
-// /////////////////////////////////
-// let arr = [2, 23, 23, 14, 6, 3, 20, 5];
-// let aa;
-// let bb;
-
-// for (let i = 0; i < arr.length; i++) {
-//   for (let j = 0; j < arr.length; j++) {
-//     aa = arr[j];
-//     bb = arr[j + 1];
-//     if (aa > bb) {
-//       bb = aa;
-//     }
-//     console.log(aa);
-//   }
-// }
+console.log(overallBalance2);

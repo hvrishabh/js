@@ -309,113 +309,94 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
+////////////////////............ l163 ....sorting arrays...........
 
-////////////////////////// 166............
-////////...............Array method practise ........
+// const owners = ['jonas', 'Zach', 1, 2, 5, 3, 'Adam', 'Martha'];
+// console.log(owners.sort());
+// // sort() it mutates the array and it rearranges numerically first and then alphabetically
 
-//1.
-// const bankDepositSum = accounts.map((val, index) => val.movements).flat();
+// console.log(owners);
 
-const bankDepositSum = accounts
-  .flatMap((val, index) => val.movements)
-  .filter(mov => mov > 0)
-  .reduce((acc, mov) => acc + mov, 0);
+// // sorting with numbers
+// // sorting() method does not work with the negative numbers, bcoz it converts every number to strign and then perform the sorting .
+// console.log(movements);
+// // console.log(movements.sort()); // does not work
 
-console.log(bankDepositSum);
+// // sorting (for ascending order)
+// // return < 0 ==> A > B // order remains the same
+// // return > 0 ==> B > A // switch the order
 
-///////////////////
-// 2. deposits with aleast 1000 value
+// // movements.sort((a, b) => {
+// //   // here a and b , are two consecutive values
+// //   if (a > b) return 1;
+// //   if (a < b) return -1;
+// // });
 
-const numDeposit1000 = accounts
-  .flatMap(val => val.movements)
-  .filter(mov => mov >= 1000).length;
-console.log(numDeposit1000);
-// or
-const numDeposit1000s = accounts
-  .flatMap(val => val.movements)
-  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0); // ++count= count+1 // preceding plus operator
-console.log(numDeposit1000s);
+// movements.sort((a, b) => a - b);
+// console.log(movements);
 
-// prefix ++a and postfix operator a++,
-let a = 10;
-console.log(a++);
-console.log(++a);
+// /////////// sorting() (for descending order)
+// // return < 0 --> A > B // order remains same
+// // return > 0 --> A < B // switch the order
 
-// 3. creating object with sum of withdrawl and deposits
+// // movements.sort((a, b) => {
+// //   if (a > b) return -1;
+// //   if (a < b) return 1;
+// // });
 
-// const sums = accounts
-//   .flatMap(acc => acc.movements)
-//   .reduce(
-//     (sum, cur) => {
-//       cur > 0 ? (sum.deposits += cur) : (sum.withdrawls += cur);
-//       return sum;
-//     },
-//     { deposits: 0, withdrawls: 0 } // for the initializer we have used the object, we could have used an empty object {} , but rather we choose the object with deposits and withdrawls
-//   );
-// console.log(sums);
+// movements.sort((a, b) => a - b);
+// console.log(movements);
 
-// or using destructuring
+//////////////////////////////////////////////////
+///////////////////////////////////////////
 
-const { deposits, withdrawls } = accounts
-  .flatMap(acc => acc.movements)
-  .reduce(
-    (sum, cur) => {
-      sum[cur > 0 ? 'deposits' : 'withdrawls'] += cur;
-      return sum;
-    },
-    { deposits: 0, withdrawls: 0 }
+////////////////// l 164 how to programmatically create and fill arrays................
+
+// array constructor function
+// it create empty array
+const x = new Array(7);
+console.log(x);
+
+// console.log(x.map(() => 5)); // still empty
+
+x.fill(5);
+console.log(x);
+
+x.fill(23, 3, 6); // 5 is the value to be filled and 3 is the begain parameter, and 6 is the last parameter upto which we can fill it and it is not included
+console.log(x);
+
+//// array.from()
+// we are not using form as an nethod on array
+// but using it on array construtor
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(z);
+
+// const dice = Array.from({ length: 100 }, (val, i) => {
+//   return Math.trunc(Math.random(val * 6));
+// });
+
+// console.log(dice);
+
+/////////    Query selector all return a node list , with something array which contains all the selected elements, but not a real array.
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent)
   );
-console.log(deposits, withdrawls);
+  console.log(movementsUI);
 
-// 4.
-// captialize the first letter of each word in a sentence.
+  // console.log(movementsUI.map(el => Number(el.textContent)));
 
-// title cased
+  // or
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
 
-// this is a nice title -> This Is a Nice Title
+  console.log(movementsUI2.map(el => Number(el.textContent)));
+});
 
-// const convertTitleCase = function (title) {
-//   const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
+////////////////////////////////////////// l 165.....how to use array methods
 
-//   const titleCase = title
-//     .toLowerCase()
-//     .split(' ')
-//     .map(word =>
-//       exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
-//     )
-//     .join(' ');
-
-//   return titleCase;
-// };
-
-const convertTitleCase = function (title) {
-  const captialize = str => str[0].toUpperCase() + str.slice(1);
-
-  const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'in', 'with'];
-
-  const titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : captialize(word)))
-    .join(' ');
-
-  return captialize(titleCase);
-};
-console.log(convertTitleCase('this is a nice title'));
-console.log(convertTitleCase('and here is another title with an ExamPle'));
-
-// /////////////////////////////////
-// let arr = [2, 23, 23, 14, 6, 3, 20, 5];
-// let aa;
-// let bb;
-
-// for (let i = 0; i < arr.length; i++) {
-//   for (let j = 0; j < arr.length; j++) {
-//     aa = arr[j];
-//     bb = arr[j + 1];
-//     if (aa > bb) {
-//       bb = aa;
-//     }
-//     console.log(aa);
-//   }
-// }
+// which method to use

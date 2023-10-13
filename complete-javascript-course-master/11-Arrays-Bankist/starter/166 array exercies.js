@@ -309,6 +309,97 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
+////////////////////............ l163 ....sorting arrays...........
+
+// const owners = ['jonas', 'Zach', 1, 2, 5, 3, 'Adam', 'Martha'];
+// console.log(owners.sort());
+// // sort() it mutates the array and it rearranges numerically first and then alphabetically
+
+// console.log(owners);
+
+// // sorting with numbers
+// // sorting() method does not work with the negative numbers, bcoz it converts every number to strign and then perform the sorting .
+// console.log(movements);
+// // console.log(movements.sort()); // does not work
+
+// // sorting (for ascending order)
+// // return < 0 ==> A > B // order remains the same
+// // return > 0 ==> B > A // switch the order
+
+// // movements.sort((a, b) => {
+// //   // here a and b , are two consecutive values
+// //   if (a > b) return 1;
+// //   if (a < b) return -1;
+// // });
+
+// movements.sort((a, b) => a - b);
+// console.log(movements);
+
+// /////////// sorting() (for descending order)
+// // return < 0 --> A > B // order remains same
+// // return > 0 --> A < B // switch the order
+
+// // movements.sort((a, b) => {
+// //   if (a > b) return -1;
+// //   if (a < b) return 1;
+// // });
+
+// movements.sort((a, b) => a - b);
+// console.log(movements);
+
+//////////////////////////////////////////////////
+///////////////////////////////////////////
+
+////////////////// l 164 how to programmatically create and fill arrays................
+
+// // array constructor function
+// // it create empty array
+// const x = new Array(7);
+// console.log(x);
+
+// // console.log(x.map(() => 5)); // still empty
+
+// x.fill(5);
+// console.log(x);
+
+// x.fill(23, 3, 6); // 5 is the value to be filled and 3 is the begain parameter, and 6 is the last parameter upto which we can fill it and it is not included
+// console.log(x);
+
+// //// array.from()
+// // we are not using form as an nethod on array
+// // but using it on array construtor
+// const y = Array.from({ length: 7 }, () => 1);
+// console.log(y);
+
+// const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+// console.log(z);
+
+// // const dice = Array.from({ length: 100 }, (val, i) => {
+// //   return Math.trunc(Math.random(val * 6));
+// // });
+
+// // console.log(dice);
+
+// /////////    Query selector all return a node list , with something array which contains all the selected elements, but not a real array.
+
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent)
+//   );
+//   console.log(movementsUI);
+
+//   // console.log(movementsUI.map(el => Number(el.textContent)));
+
+//   // or
+//   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+
+//   console.log(movementsUI2.map(el => Number(el.textContent)));
+// });
+
+// ////////////////////////////////////////// l 165.....how to use array methods
+
+// // which method to use
 
 ////////////////////////// 166............
 ////////...............Array method practise ........
@@ -403,19 +494,3 @@ const convertTitleCase = function (title) {
 };
 console.log(convertTitleCase('this is a nice title'));
 console.log(convertTitleCase('and here is another title with an ExamPle'));
-
-// /////////////////////////////////
-// let arr = [2, 23, 23, 14, 6, 3, 20, 5];
-// let aa;
-// let bb;
-
-// for (let i = 0; i < arr.length; i++) {
-//   for (let j = 0; j < arr.length; j++) {
-//     aa = arr[j];
-//     bb = arr[j + 1];
-//     if (aa > bb) {
-//       bb = aa;
-//     }
-//     console.log(aa);
-//   }
-// }
