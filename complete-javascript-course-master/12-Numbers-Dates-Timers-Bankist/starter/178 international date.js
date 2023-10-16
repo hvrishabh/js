@@ -86,7 +86,7 @@ const formatMovementDate = function (date, locale) {
     Math.round(Math.abs(date2 - date1) / 1000 / 60 / 60 / 24);
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  // console.log(daysPassed);
+  console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
@@ -102,13 +102,6 @@ const formatMovementDate = function (date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
-const formatCur = function (value, locale, currency) {
-  new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: currency,
-  }).format(value);
-};
-
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -122,20 +115,13 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatMovementDate(date, acc.locale);
 
-    // const formattedMov = formatCur(mov, acc.locale, acc.currency);
-
-    const formattedMov = new Intl.NumberFormat(acc.locale, {
-      style: 'currency',
-      currency: acc.currency,
-    }).format(mov);
-
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
         <div class=""movements__date">${displayDate}</div>
-        <div class="movements__value">${formattedMov}</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -145,11 +131,7 @@ const displayMovements = function (acc, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-
-  const formattedMov = formatCur(acc.balance, acc.locale, acc.currency);
-
   labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
-  // labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
 const calcDisplaySummary = function (acc) {
@@ -360,30 +342,3 @@ const calcDaysPassed = (date1, date2) =>
 ////////////////////////////////////////////////
 
 ///////.............. Internationalizing Dates(Intl)
-
-//////////////////////////////////////////
-////////////////////////////////////////////////
-
-///////.............. Internationalizing Numbers(Intl)
-const num = 3884764.23;
-
-// const options = {
-//   style: 'unit',
-//   // unit: 'mile-per-hour',
-//   unit: 'celsius',
-// };
-
-const options = {
-  style: 'currency', //percentage // unit //
-  unit: 'celsius',
-  currency: 'EUR', // we have to define the currency if we are defining currency as the style
-  // useGrouping: false,
-};
-
-console.log('US :', new Intl.NumberFormat('en-US', options).format(num));
-console.log('Germeny :', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('India :', new Intl.NumberFormat('hi-IN', options).format(num));
-console.log(
-  navigator.language,
-  new Intl.NumberFormat(navigator.language, options).format(num)
-);
