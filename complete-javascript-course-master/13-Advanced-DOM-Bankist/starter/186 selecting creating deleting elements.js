@@ -35,7 +35,6 @@ document.addEventListener('keydown', function (e) {
 });
 /////////////////////////////////////////
 /////////////////////////////////////////
-
 ////////////////............. l186 Selecting,creating and deleting elements
 
 ///////////...........Selecting..........
@@ -73,7 +72,25 @@ message.textContent =
 message.innerHTML =
   'We use cookies for imporved funcionality and analytics. <button class = "btn btn--close-cookie">Got it! </button>';
 
+//innerHTML and textContent both of these properties are used to set and read content
+
+// above , we have created the element and below is the we inseting it into the DOM
+// header.prepend(message); // i.e it is inserted into our DOM
+// prepend() , add the elements as the first child of the parent(header here) element
+
 header.append(message); // append() , adds the elements as the last child of the parent() element, header here(parent element)
+// // BUT the element is only inseted once ,bcoz it is now the live dom element and can't be present at two place simulatneously
+// // append here just moved the element from first position to the last position bcoz it was already inseted with the prepend()
+
+// // therefore we can also move elements with The prepend() and append() if element already present.
+
+// // what if we actually want to have multiple copy
+// // then we clone the element and then append it
+
+// header.append(message.cloneNode(true));
+
+////////////////////////////
+// // .before() and .after() are used to inset just before and after the Element i.e. they created the sibling to that element
 
 // header.before(message);
 // header.after(message);
@@ -88,68 +105,3 @@ document
 
     message.parentElement.removeChild(message);
   });
-
-///////////////////////////////////////////////////////////////////
-///////////////.............l 187.......... styles,attributes and classes...................
-
-// these styles are set as inline properties.
-
-/////////.............styles...............
-message.style.backgroundColor = '#37383d'; // element.style.propertyName = "value"
-
-message.style.width = '120%';
-
-// we can use the style property to read the value but only for inline css property
-console.log(message.style.height);
-console.log(message.style.backgroundColor);
-
-//but we can get it by using getComputedStyle()
-console.log(getComputedStyle(message)); // it returns the object
-console.log(getComputedStyle(message).height);
-
-// message.style.height = getComputedStyle(message).height + 40 + 'px'; // directly this will not work as we are trying to add the numbers to the string
-
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
-
-console.log(getComputedStyle(message).height);
-
-//////............css custom properties............
-
-// // document.documentElement == :root in css
-document.documentElement.style.setProperty('--color-primary', 'orange');
-
-////////////////.............. attributes...........
-
-const logo = document.querySelector('.nav__logo');
-console.log(logo); // it gives the complete elements
-console.log(logo.alt); // it gives alt , attribute property
-console.log(logo.src); // here we get the whole link
-console.log(logo.getAttribute('src')); //here we only get the link on dom
-console.log(logo.className);
-
-logo.alt = 'Beautiful minimalist logo';
-//
-console.log(logo.designer); // undefined
-
-// for non-standard properties we have to use other method , this method will return undefined
-console.log(logo.getAttribute('designer'));
-
-// setting property/attribute using setAttribute()
-logo.setAttribute('compay', 'Bankist');
-
-const link = document.querySelector('.nav__link--btn');
-console.log(link.href);
-console.log(link.getAttribute('href'));
-
-/////////////////..........data attributes.........
-console.log(logo.dataset.versionNumber);
-
-//////////............classes.........
-logo.classList.add('c', 'j');
-logo.classList.remove('c', 'j');
-logo.classList.toggle('c', 'j');
-logo.classList.contains('c', 'j');
-
-// dont use this
-// logo.className = 'jonas'; // this will overwrite all the classes and only one class can be written like this
