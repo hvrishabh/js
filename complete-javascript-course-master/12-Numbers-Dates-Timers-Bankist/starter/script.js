@@ -196,14 +196,40 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+// start log Out Timer
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    //When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get Started`;
+      containerApp.style.opacity = 0;
+    }
+    // dec 1 sec
+    time--;
+  };
+  // setting the time to 5 min
+  let time = 100;
+  //call timer every sec
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 /////////////////// ...... Fake always login
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 //////////////////////////////////////////
 ////////////////////////////
 ////////////.......Experimenting with API
@@ -254,6 +280,11 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    //timer
+    if (timer) clearInterval(timer);
+    // logout timer
+    timer = startLogOutTimer();
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -283,6 +314,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    //reset the timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -292,14 +327,29 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    //add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      //add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
+
+    //reset the timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
+
+    // // Add movement
+    // currentAccount.movements.push(amount);
+
+    // //add loan date
+    // currentAccount.movementsDates.push(new Date().toISOString());
+
+    // // Update UI
+    // updateUI(currentAccount);
   }
   inputLoanAmount.value = '';
 });
@@ -339,51 +389,85 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
-//////////////........... l 177 ........ operations with dates.................
+// //////////////........... l 177 ........ operations with dates.................
 
-const future = new Date(2037, 10, 19, 15, 23);
-console.log(future);
-console.log(Number(future));
-console.log(+future); // dates are converted into time stamps
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(future);
+// console.log(Number(future));
+// console.log(+future); // dates are converted into time stamps
 
-// no of days passed
-const calcDaysPassed = (date1, date2) =>
-  Math.abs(date2 - date1) / 1000 / 60 / 60 / 24;
+// // no of days passed
+// const calcDaysPassed = (date1, date2) =>
+//   Math.abs(date2 - date1) / 1000 / 60 / 60 / 24;
 
-// const days1 = calcDaysPassed(new Date(2037, 3, 26), new Date(2037, 3, 24));
-// console.log(days1);
+// // const days1 = calcDaysPassed(new Date(2037, 3, 26), new Date(2037, 3, 24));
+// // console.log(days1);
 
-////////////////////// library movement.js library for dates and time
+// ////////////////////// library movement.js library for dates and time
 
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////
-////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////
+// //////////////////////////////////////////
+// ////////////////////////////////////////////////
 
-///////.............. Internationalizing Dates(Intl)
+// ///////.............. Internationalizing Dates(Intl)
 
-//////////////////////////////////////////
-////////////////////////////////////////////////
+// //////////////////////////////////////////
+// ////////////////////////////////////////////////
 
-///////.............. Internationalizing Numbers(Intl)
-const num = 3884764.23;
+// ///////.............. Internationalizing Numbers(Intl)
+// const num = 3884764.23;
+
+// // const options = {
+// //   style: 'unit',
+// //   // unit: 'mile-per-hour',
+// //   unit: 'celsius',
+// // };
 
 // const options = {
-//   style: 'unit',
-//   // unit: 'mile-per-hour',
+//   style: 'currency', //percentage // unit //
 //   unit: 'celsius',
+//   currency: 'EUR', // we have to define the currency if we are defining currency as the style
+//   // useGrouping: false,
 // };
 
-const options = {
-  style: 'currency', //percentage // unit //
-  unit: 'celsius',
-  currency: 'EUR', // we have to define the currency if we are defining currency as the style
-  // useGrouping: false,
-};
+// console.log('US :', new Intl.NumberFormat('en-US', options).format(num));
+// console.log('Germeny :', new Intl.NumberFormat('de-DE', options).format(num));
+// console.log('India :', new Intl.NumberFormat('hi-IN', options).format(num));
+// console.log(
+//   navigator.language,
+//   new Intl.NumberFormat(navigator.language, options).format(num)
+// );
 
-console.log('US :', new Intl.NumberFormat('en-US', options).format(num));
-console.log('Germeny :', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('India :', new Intl.NumberFormat('hi-IN', options).format(num));
-console.log(
-  navigator.language,
-  new Intl.NumberFormat(navigator.language, options).format(num)
+////////////////////////////////////////////////////
+/////////////////////.................L 180 timers ...setTimeOUt and setIntervals
+
+// setTimeout(() => console.log('Here is your Pizza'), 3000);
+
+// setTimeout(
+//   (ing1, ing2) =>
+//     console.log('Here is your Pizza with ' + ing1 + ' and  ' + ing2),
+//   3000,
+//   'olives',
+//   'spinach'
+// );
+
+const ingredients = ['olives', 'spinach1'];
+const pizzaTimer = setTimeout(
+  (ing1, ing2) =>
+    console.log('Here is your Pizza with ' + ing1 + ' and  ' + ing2),
+  3000,
+  ...ingredients
 );
+
+console.log('waiting');
+
+///////// cancel the timeout
+if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
+
+/////////////////........setIntervals
+// setInterval(function () {
+//   const now = new Date();
+//   console.log(now);
+// }, 1000);
+
+/////////////////////....................l181 counter
