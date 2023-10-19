@@ -7,6 +7,11 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+
+const section1 = document.querySelector('#section--1');
+
 // console.log(btnsOpenModal);
 
 const openModal = function (e) {
@@ -33,123 +38,160 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+//////////// smooth Scrolling............
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+////////////...........L 192 ..... event delgation....for page navigation ................
+
+// page navigation
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  console.log(e.target);
+  e.preventDefault();
+  // matching stategy
+  if (e.target.classList.contains('nav__link')) {
+    console.log('LINK');
+
+    // smooth scrolling
+    const id = e.target.getAttribute('href');
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+//////////////............ l 194........Building a tabbed component...........
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard Clasue
+  if (!clicked) return;
+
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+  clicked.classList.add('operations__tab--active');
+
+  // activating content area (as per the data-tab, attribute on button)
+
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+//////////////............ l 195.....Passing Arguments to Event Handlers...........
+const nav = document.querySelector('.nav');
+
+///////////////////......................
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    console.log(this);
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+//passing "argument" into handler
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
 /////////////////////////////////////////
-/////////////////////////////////////////
+////////////////////........... L 196 .......Sticky navigation.............
 
-////////////////............. l186 Selecting,creating and deleting elements
+// // scroll event is available on windows , not on document
 
-///////////...........Selecting..........
-console.log(document.documentElement);
+const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+window.addEventListener('scroll', function () {
+  // console.log(window.scrollY);
 
-console.log(document.head);
-console.log(document.body);
+  if (window.scrollY > initialCoords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+});
 
-const header = document.querySelector('.header'); // it return the first element that matches this class
-console.log(header);
+//////////........l 197.....a better way: the intersection observer API
 
-// to select multiple elements use , querySelectorAll, it will although return a node list and we have to convet it into array
-const allSections = document.querySelectorAll('.section');
+// // intersection of server API,
+// // Well, this API allows our code to basically observe changes to the way that a certain target element intersects another element, or the way it intersects the viewport.
 
-console.log(allSections); //nodelist
-console.log([...allSections]); //array
-
-document.getElementById('#section--1');
-const allButtons = document.getElementsByTagName('button');
-console.log([...allButtons]);
-console.log(allButtons); // it returns a HTML collection , which is different from the nodeList and Array, this is the live collection, while it is not the case for nodeList
-
-console.log(document.getElementsByClassName('btn')); // this will also return the liveCollection not the nodeList
-
-////////////////////////////////////////////////////////
-/////////////////..........Creating and Inseting elements........
-
-// .insetAdjacentHTML   , this method is used to bulid HTML elements
-
-const message = document.createElement('div'); // it creates a DOM element and then stores the element, but its not on the webpage
-
-message.classList.add('cookie-message');
-message.textContent =
-  'we use cookies for improved functionality and analytics.';
-message.innerHTML =
-  'We use cookies for imporved funcionality and analytics. <button class = "btn btn--close-cookie">Got it! </button>';
-
-header.append(message); // append() , adds the elements as the last child of the parent() element, header here(parent element)
-
-// header.before(message);
-// header.after(message);
-
-//////////////////////////////////////..........
-////////////..........delete the elements............
-document
-  .querySelector('.btn--close-cookie')
-  .addEventListener('click', function () {
-    // message.remove();
-    // or
-
-    message.parentElement.removeChild(message);
+const obsCallback = function (entries, observer) {
+  entries.forEach(entry => {
+    console.log(entry);
   });
+};
 
-///////////////////////////////////////////////////////////////////
-///////////////.............l 187.......... styles,attributes and classes...................
+// So let's now start with the options here,
+// and so this object needs first a root property.
+// And this root is the element
+// that the target is intersecting.
 
-// these styles are set as inline properties.
+const obsOptions = {
+  root: null, // And we are looking for the viewport, remember, because we set the root to null.
+  threshold: 0.1,
+};
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(section1); // section 1 is the target   and the root element will be the element that we want our target element to intersect.
 
-/////////.............styles...............
-message.style.backgroundColor = '#37383d'; // element.style.propertyName = "value"
+// So we could now here select an element
+// or as an alternative, we can write null,
+// and then we will be able to observe our target element
+// intersecting the entire viewport, all right?.
+// So basically, this entire rectangle here,
+// which shows the current portion of the page, okay?
+// And then second, we can define a threshold.
+// Threshold, and this is basically the percentage
+// of intersection at which
+// the observer callback will be called,
+// so this callback here.
+/////////////////////...........
 
-message.style.width = '120%';
+// So this callback function here will get called
+// each time that the observed element,
+// so our target element here, is intersecting
+// the root element at the threshold that we defined,
 
-// we can use the style property to read the value but only for inline css property
-console.log(message.style.height);
-console.log(message.style.backgroundColor);
+// So in the current example, whenever the first section,
+// so our target here, is intersecting the viewport at 10%,
+// so the viewport, because that's the root,
+// and 10% because that's the threshold.
+// So whenever that happens, then this function here
+// will get called and that's no matter if we are scrolling
+// up or down, all right?
 
-//but we can get it by using getComputedStyle()
-console.log(getComputedStyle(message)); // it returns the object
-console.log(getComputedStyle(message).height);
+// And this function will get called with two arguments,
+// and so we can specify them here,
+// and that's the entries and the observer object itself.
+// All right, so this object here basically
+// will also get passed into the callback function, all right?
+// Now this case, we're only interested in the entries,
+// but sometimes using the observer is also useful.
+// Now we can have actually multiple thresholds,
+// so here we can have an array
 
-// message.style.height = getComputedStyle(message).height + 40 + 'px'; // directly this will not work as we are trying to add the numbers to the string
-
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
-
-console.log(getComputedStyle(message).height);
-
-//////............css custom properties............
-
-// // document.documentElement == :root in css
-document.documentElement.style.setProperty('--color-primary', 'orange');
-
-////////////////.............. attributes...........
-
-const logo = document.querySelector('.nav__logo');
-console.log(logo); // it gives the complete elements
-console.log(logo.alt); // it gives alt , attribute property
-console.log(logo.src); // here we get the whole link
-console.log(logo.getAttribute('src')); //here we only get the link on dom
-console.log(logo.className);
-
-logo.alt = 'Beautiful minimalist logo';
-//
-console.log(logo.designer); // undefined
-
-// for non-standard properties we have to use other method , this method will return undefined
-console.log(logo.getAttribute('designer'));
-
-// setting property/attribute using setAttribute()
-logo.setAttribute('compay', 'Bankist');
-
-const link = document.querySelector('.nav__link--btn');
-console.log(link.href);
-console.log(link.getAttribute('href'));
-
-/////////////////..........data attributes.........
-console.log(logo.dataset.versionNumber);
-
-//////////............classes.........
-logo.classList.add('c', 'j');
-logo.classList.remove('c', 'j');
-logo.classList.toggle('c', 'j');
-logo.classList.contains('c', 'j');
-
-// dont use this
-// logo.className = 'jonas'; // this will overwrite all the classes and only one class can be written like this
+// so these entries here
+// are actually an array of the threshold entries, okay,
+// and so in this case again, there's only one element there,
+// but let's create a more general function already
+// which basically loops over these entries
+// so that we can take a look at all of them.
+// And so let's just do that, so basically,
+// simply log them to the console,
