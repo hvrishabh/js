@@ -282,27 +282,3 @@ const slider = function () {
 };
 
 slider();
-
-//////////////////...................202 Lifecycle DOM events............
-
-// // DOMContentLoaded ,thisis fired by document as soon as the , html is ocmpleted parased, which means the HTML has been downloaded and been converted into DOM tree, and all Scripts must be downloaded and executed before this event can happend as we can listen to this event as below
-
-document.addEventListener('DOMContentLoaded', function (e) {
-  console.log('HTML parse and DOM tree BUILt');
-});
-
-// as we have script tag at the bottom of the body so we dont need to have all our js functions wrapped into this function .
-
-// // load event is fired when HTML pasred , scirpt loadeed, and all CSS and external elements finished loading.
-
-window.addEventListener('load', function (e) {
-  console.log('Page fully Loaded', e);
-});
-
-// beforeunlaod , thsevent is fired when a user is about to leave a page
-
-window.addEventListener('beforeunload', function (e) {
-  e.preventDefault();
-  console.log(e);
-  e.returnValue = ''; // in order for the leabving confirmation we need to set e.returnValue = empty sting;, for historical reasons
-});

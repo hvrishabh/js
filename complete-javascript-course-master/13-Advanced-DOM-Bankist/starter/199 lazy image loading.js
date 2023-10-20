@@ -114,6 +114,20 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 /////////////////////////////////////////
 ////////////////////........... L 196 .......Sticky navigation.............
 
+// // scroll event is available on windows , not on document
+
+// const initialCoords = section1.getBoundingClientRect();
+// // console.log(initialCoords);
+// window.addEventListener('scroll', function () {
+//   // console.log(window.scrollY);
+
+//   if (window.scrollY > initialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
 //////////........l 197.....a better way: the intersection observer API
 
 // // intersection of server API,
@@ -138,6 +152,12 @@ headerObserver.observe(header);
 
 ///////......l 198........Revealing elements on Scroll.......
 
+/////// add this css to make the hidden first and the revealing them on scoll
+
+// .section--hidden {
+//   opacity: 0;
+//   transform: translateY(8rem);
+// }
 //
 const allSections = document.querySelectorAll('section');
 
@@ -162,6 +182,19 @@ allSections.forEach(function (section) {
 });
 
 /////////////// l 199.........Lazy image loading...............
+
+// first we keep an small size image in the "src" , then a high size image in "data-src" attribute.
+
+{
+  /* <img
+  src="img/grow-lazy.jpg"
+  data-src="img/grow.jpg"
+  alt="Plant"
+  class="features__img lazy-img"
+/>;
+
+The image attribute looks something like this and  */
+}
 
 // here we only select images with data-src attriubte
 const imgTargets = document.querySelectorAll('img[data-src]'); // it return a node list of images
@@ -189,120 +222,3 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
-
-///////////////..........l 200.................. slider component..........
-const slider = function () {
-  // putting all the slides side by side
-  const slides = document.querySelectorAll('.slide');
-  const btnLeft = document.querySelector('.slider__btn--left');
-  const btnRight = document.querySelector('.slider__btn--right');
-  const dotContainer = document.querySelector('.dots');
-
-  let curSlide = 0;
-  const maxSlide = slides.length;
-
-  // const slider = document.querySelector('.slider');
-  // slider.style.transform = 'scale(0.2) translateX(-800px)';
-  // // console.log(slides);
-
-  const createDots = function () {
-    slides.forEach(function (_, i) {
-      dotContainer.insertAdjacentHTML(
-        'beforeend',
-        `<button class="dots__dot" data-slide="${i}"></button>`
-      );
-    });
-  };
-
-  const activateDot = function (slide) {
-    document
-      .querySelectorAll('.dots__dot')
-      .forEach(dot => dot.classList.remove('dots__dot--active'));
-
-    document
-      .querySelector(`.dots__dot[data-slide="${slide}"]`)
-      .classList.add('dots__dot--active');
-  };
-
-  const goToSlide = function (slide) {
-    slides.forEach((s, i) => {
-      s.style.transform = `translateX(${100 * (i - slide)}%)`;
-    });
-  };
-
-  // Next slide
-  const nextSlide = function () {
-    if (curSlide === maxSlide - 1) {
-      curSlide = 0;
-    } else {
-      curSlide++;
-    }
-    goToSlide(curSlide);
-    activateDot(curSlide);
-  };
-
-  const preSlide = function () {
-    if (curSlide === 0) {
-      curSlide = maxSlide - 1;
-    } else {
-      curSlide--;
-    }
-    goToSlide(curSlide);
-    activateDot(curSlide);
-  };
-
-  const init = function () {
-    goToSlide(0);
-    createDots();
-    activateDot(0);
-  };
-  init();
-
-  // Event Handlers
-  btnRight.addEventListener('click', nextSlide);
-  btnLeft.addEventListener('click', preSlide);
-
-  document.addEventListener('keydown', function (e) {
-    console.log(e);
-    if (e.key === 'ArrowLeft') preSlide();
-    e.key === 'ArrowRight' && nextSlide();
-    // if (e.key === 'ArrowRight') nextSlide();
-  });
-
-  dotContainer.addEventListener('click', function (e) {
-    if (e.target.classList.contains('dots__dot')) {
-      // const slide = e.target.dataset.slide;  //or
-      const { slide } = e.target.dataset;
-      goToSlide(slide);
-      activateDot(slide);
-    }
-  });
-
-  //////////////////////////.......201 ......slider with bottom dot buttons and timer............
-};
-
-slider();
-
-//////////////////...................202 Lifecycle DOM events............
-
-// // DOMContentLoaded ,thisis fired by document as soon as the , html is ocmpleted parased, which means the HTML has been downloaded and been converted into DOM tree, and all Scripts must be downloaded and executed before this event can happend as we can listen to this event as below
-
-document.addEventListener('DOMContentLoaded', function (e) {
-  console.log('HTML parse and DOM tree BUILt');
-});
-
-// as we have script tag at the bottom of the body so we dont need to have all our js functions wrapped into this function .
-
-// // load event is fired when HTML pasred , scirpt loadeed, and all CSS and external elements finished loading.
-
-window.addEventListener('load', function (e) {
-  console.log('Page fully Loaded', e);
-});
-
-// beforeunlaod , thsevent is fired when a user is about to leave a page
-
-window.addEventListener('beforeunload', function (e) {
-  e.preventDefault();
-  console.log(e);
-  e.returnValue = ''; // in order for the leabving confirmation we need to set e.returnValue = empty sting;, for historical reasons
-});
