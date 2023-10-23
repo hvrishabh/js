@@ -113,69 +113,31 @@ const PersonCl1 = class {};
 
 // // class decleration
 class PersonCl {
-  constructor(fullName, birthYear) {
-    this.fullName = fullName;
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
     this.birthYear = birthYear;
   }
+
+  // all these function that we write here outside the constructor function will be on the prototype inheritance
 
   //// methods will be added ot .prototype property
   calcAge() {
     console.log(2037 - this.birthYear);
   }
-
-  // classea also have getters and setters
-  get age() {
-    return 2037 - this.birthYear;
-  }
-
-  // set a property that already exists
-  set fullName(name) {
-    console.log(name);
-    if (name.includes(' ')) this._fullName = name;
-    else alert(`${name} is not a full name`);
-  }
-
-  get fullName() {
-    return this._fullName;
-  }
 }
-const jessica = new PersonCl('Jessica Davis', 1996);
+const jessica = new PersonCl('Jessica', 1996);
 console.log(jessica);
 jessica.calcAge();
-
-// jessica.age(); /// this will through an error
-console.log(jessica.age);
 
 console.log(jessica.__proto__ === PersonCl.prototype); // true
 
 PersonCl.prototype.greet = function () {
-  console.log(`Hey ${this.fullName}`);
+  console.log(`Hey ${this.firstName}`);
 };
 jessica.greet();
 
-const walter = new PersonCl('Wallter White', 1965);
-/////////////////////////////////////////////////////
-////////////////////////////////..................... l 214.............setters and getters.............
+// 1. classes are not  hoisted, even if they are class decleration, i.e we can not use them before they are declared, where as functions are hoisted.
 
-// // all objects have the setter and getter properties , while we call these special properties assessor properties , while the mroe normal properties are calleld data properties.
+// 2. Class are also first-class cititzens , same as functions, i.e we can pass them into functions and return them into functions.
 
-// getter and setter they are functions that get and set properties..
-
-const account = {
-  owner: 'jonas',
-  movements: [200, 530, 120, 300],
-
-  get latest() {
-    return this.movements.slice(-1).pop();
-  }, // we use the get keyword for getter and declare the latest as a function
-
-  // any setter method needs to have atleast one argument
-  set latest(mov) {
-    this.movements.push(mov);
-  },
-};
-
-console.log(account.latest); // simply use this as a property , dont call it as a function here
-
-account.latest = 50;
-console.log(account.movements);
+// 3. classes are executed in strict mode

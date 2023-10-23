@@ -306,3 +306,7 @@ window.addEventListener('beforeunload', function (e) {
   console.log(e);
   e.returnValue = ''; // in order for the leabving confirmation we need to set e.returnValue = empty sting;, for historical reasons
 });
+
+///////////////....................... 203 Efficient script laoding ...............
+
+// DEFER And ASYNC script loading
