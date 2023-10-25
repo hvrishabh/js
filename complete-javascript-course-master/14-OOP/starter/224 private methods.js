@@ -646,96 +646,7 @@ jay.calcAge();
 ///////////////////////////////////////////////
 ////........l 224.....Encapsulation:Private classes Fields and Methods...........
 
-// console.log('.................223............');
-
-// // Public fields
-// // Private Fields
-// // Public methods
-// // Private methods
-
-// //////..... there is also the static version of above 4
-
-// // we can think of a field as a property that will be on all instances, so that's why we can also call this a public instance field.
-
-// class Account {
-//   // // 1. public fields
-//   // these public fields are on the instances, not on the prototypes, where as below methods are on the protypes
-
-//   //Prototypes are the mechanism by which JavaScript objects inherit features from one another
-
-//   locale = navigator.language;
-//   // _movements = [];
-
-//   // // 2. Private fields (available on instances not on the prototype )
-//   #movements = [];
-//   #pin;
-
-//   // // 3. All these methods are public methods
-
-//   constructor(owner, currency, pin) {
-//     this.owner = owner;
-//     this.currency = currency;
-//     this.#pin = pin;
-
-//     //pretected property
-//     // this._movements = [];
-//     // this.locale = navigator.language;
-
-//     console.log(`Thnx for opening an account, ${owner}`);
-//   }
-
-//   // Public Interface .....API
-//   getMovements() {
-//     return this.#movements;
-//   }
-
-//   deposit(val) {
-//     this.#movements.push(val);
-//   }
-//   withdraw(val) {
-//     this.deposit(-val);
-//   }
-
-//   // Private Methods (not available on instance but on prototypes)
-//   #approveLoan(val) {
-//     return true;
-//   }
-
-//   requestLoan(val) {
-//     if (this.#approveLoan(val)) {
-//       this.deposit(val);
-//       console.log('Loan approved');
-//     }
-//   }
-// }
-
-// const acc1 = new Account('Jonas', 'EUR', 1111);
-// console.log(acc1);
-
-// // protect property still accessble
-// // acc1._movements.push(250);
-// // acc1._movements.push(-150);
-
-// acc1.deposit(250);
-// acc1.withdraw(140);
-// acc1.requestLoan(1000);
-// acc1.requestLoan(10300);
-
-// // acc1.approveLoan(1000)
-// console.log(acc1.getMovements());
-
-// console.log(acc1);
-// // console.log(acc1.#pin);  //
-
-// // console.log(acc1.#movements); // now can not now access this private method.
-
-// // console.log(acc1.#approveLoan(321));
-
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-////........l 225 .....Chaining Methods..........
-
-console.log('.................224...........');
+console.log('.................223............');
 
 // Public fields
 // Private Fields
@@ -780,11 +691,9 @@ class Account {
 
   deposit(val) {
     this.#movements.push(val);
-    return this; // this keywords return the same object and makes a method chainable
   }
   withdraw(val) {
     this.deposit(-val);
-    return this;
   }
 
   // Private Methods (not available on instance but on prototypes)
@@ -796,7 +705,6 @@ class Account {
     if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log('Loan approved');
-      return this;
     }
   }
 }
@@ -822,6 +730,3 @@ console.log(acc1);
 // console.log(acc1.#movements); // now can not now access this private method.
 
 // console.log(acc1.#approveLoan(321));
-
-acc1.deposit(233).deposit(230).withdraw(590).requestLoan(345435);
-console.log(acc1.getMovements());
