@@ -62,10 +62,10 @@ const countriesContainer = document.querySelector('.countries');
 /////////////////////////////////////////.........\
 /////////////////..........249 how web works..Requests and Responses.......
 
-// /////////////////////////////////////////.........\
-// /////////////////..........250 .......... Callback hell......
+/////////////////////////////////////////.........\
+/////////////////..........250 .......... Callback hell......
 
-// // chaining ajax call
+// chaining ajax call
 
 // const renderCountry = function (data, className = '') {
 //   const html = `
@@ -139,72 +139,3 @@ const countriesContainer = document.querySelector('.countries');
 //     }, 1000);
 //   }, 1000);
 // }, 1000);
-
-////////////////////////////////////////////////////////
-//////////////////.........251 Promises and Fetch API....
-
-// ////.......252 .. consume Promise
-
-const renderCountry = function (data, className = '') {
-  const html = `
-        <article class="country ${className}">
-            <img class="country__img" src="${data.flags.svg}" />
-            <div class="country__data">
-                <h3 class="country__name">${data.name}</h3>
-                <h4 class="country__region">${data.region}</h4>
-                <p class="country__row"><span>👫</span>${(
-                  +data.population / 1000000
-                ).toFixed(1)} Million People</p>
-                <p class="country__row"><span>🗣️</span>${
-                  data.languages[0].name
-                }</p>
-                <p class="country__row"><span>💰</span>${
-                  data.currencies[0].name
-                }</p>
-            </div>
-        </article>
-        `;
-
-  countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = 1;
-};
-
-// const getCountryData = function (country) {
-//   // then() method is available on the promise, and in then() method we pass a callback method, that we want to be executed as soon as the promoise full filled.
-
-//   // and its callback contains one argument once it is called by JS , and that argument is the resulting value of the full filled promise.
-
-//   fetch(`https://restcountries.com/v2/name/${country}`)
-//     .then(function (response) {
-//       console.log(response);
-//       // json is a method , that is available on all the respose object that is coming from the fetch function. i.e  on all of the resolved values. like "response"
-
-//       // but this json is also a asynchronous function() htat is it will also return a promise.
-//       // threefore we return the value here and we then choose an another then() function to retieve the data.
-//       return response.json();
-//       console.log();
-//     })
-//     .then(function (data) {
-//       console.log(data);
-//       renderCountry(data[0]);
-//     });
-// };
-
-const getCountryData = function (country) {
-  // country 1
-  fetch(`https://restcountries.com/v2/name/${country}`)
-    .then(response => response.json())
-    .then(data => {
-      renderCountry(data[0]);
-      const neighbour = data[0].borders[0];
-      if (!neighbour) return;
-      // country 2
-      return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
-    })
-    .then(response => response.json())
-    .then(data => renderCountry(data, 'neighbour'));
-};
-
-getCountryData('usa');
-
-/////////////////////................... 253 chaining promise.............
