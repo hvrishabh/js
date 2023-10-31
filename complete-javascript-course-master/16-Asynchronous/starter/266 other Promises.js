@@ -586,7 +586,7 @@ const renderError = function (msg) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////............l 261 ........ Async Await.............
 
-//// Async Await is only about consuming promise, the way we build promise is not affected.
+// // Async Await is only about consuming promise, the way we build promise is not affected.
 
 // const getPosition = function () {
 //   return new Promise(function (resolve, reject) {
@@ -742,14 +742,14 @@ const renderError = function (msg) {
 //////////////////////////////////////////
 /////////////............... l 265 Running Promises in Paralled........
 
-// const getJSON = function (url, errorMsg = 'Something went wrong') {
-//   return fetch(url).then(response => {
-//     if (!response.ok) {
-//       throw new Error(`${errorMsg} (${response.status})`);
-//     }
-//     return response.json();
-//   });
-// };
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+    return response.json();
+  });
+};
 
 // const get3Countries = async function (c1, c2, c3) {
 //   try {
@@ -778,7 +778,7 @@ const renderError = function (msg) {
 //     // );
 //     // console.log([data1.capital, data2.capital, data3.capital]);
 
-//     // PRmise.all will take an array and returns an error , in this all the promsies are running in parallel , saving Time but If one of them fails , then all the Promises fails.
+//     // PRmise.all will take an array and returns an array , in this all the promsies are running in parallel , saving Time but If one of them fails , then all the Promises fails.
 //     const data = await Promise.all([
 //       getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
 //       getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
@@ -791,12 +791,14 @@ const renderError = function (msg) {
 // };
 // get3Countries('portugal', 'canada', 'tanzania');
 
-////////////////////////...........
-////////////////////.............266....... Other Promises combinators: race, allSettled and any
+// ////////////////////////...........
+// ////////////////////////...........
+// ////////////////////////...........
+// ////////////////////.............266....... Other Promises combinators: race, allSettled and any
 
-//////////////////////////////////////
-// Other Promise Combinators: race, allSettled and any
-// Promise.race ....... recieves a array of promise and return a promise, it is settled(resolved or rejected either) as soon as one of the internal promise is settled , the first settled promise wins the race.
+// //////////////////////////////////////
+// // Other Promise Combinators: race, allSettled and any
+// // Promise.race ....... recieves a array of promise and return a promise, it is settled(resolved or rejected either) as soon as one of the internal promise is settled , the first settled promise wins the race.
 
 // (async function () {
 //   const res = await Promise.race([
