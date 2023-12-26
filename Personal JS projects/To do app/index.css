@@ -4,6 +4,15 @@
   /* border: border-box; */
 }
 .taskdone {
-  color: green;
+  color: rgb(159, 161, 159);
   text-decoration: line-through;
+}
+ul {
+  padding-top: 10px;
+}
+li {
+  list-style: none;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  margin: 10px;
 }
