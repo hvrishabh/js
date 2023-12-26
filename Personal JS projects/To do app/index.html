@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1 style="margin: auto">To Do APP</h1>
+    <div style="margin: 100px">
+      <div>
+        <form id="form">
+          <label for="">Tasks to do : </label>
+          <input id="taskdata" type="text" />
+          <input
+            onclick="taskAddedToList(event)"
+            id="AddTask"
+            type="button"
+            value="add Task"
+          />
+
+          <div
+            style="
+              margin-top: 40px;
+              background-color: rgb(190, 184, 184);
+              border: 2px solid grey;
+            "
+          >
+            <h2>The tasks are following</h2>
+            <ul id="taskList" style="background-color: white"></ul>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+
+    <!-- <script>
+      let form = document.getElementById("form");
+      let taskdata = document.getElementById("taskdata");
+      let addTask = document.getElementById("addTask");
+      let taskList = document.getElementById("taskList");
+
+      let listItemId = 0;
+
+      function taskAddedToList(e) {
+        const taskValue = taskdata.value;
+        const node = document.createElement("li");
+        node.setAttribute("class", "listItemClass");
+        node.setAttribute("id", listItemId);
+
+        const box = `
+        <input class="checkbox " type="checkbox" onclick="taskDone(event)" /> ${taskValue}<span><button class="deleteTask" value="deleteMe" onclick="deleteTask(event)" >delete</button></span>
+         `;
+
+        // const textnode = document.createTextNode(taskValue);
+        node.innerHTML = box;
+        taskList.appendChild(node);
+        taskdata.value = "";
+        listItemId++;
+
+        ////////////////////////////////////////////////////
+        // const box = `<div id='box'><button id='button-1'>Button</button></div>`;
+        // document.taskList.innerHTML = box;
+      }
+
+      function taskDone(e) {
+        e.target.parentElement.classList.toggle("taskdone");
+      }
+      function deleteTask(e) {
+        // let deleteId = e.target.parentElement.parentElement.id;
+
+        e.target.parentElement.parentElement.remove();
+
+        e.preventDefault();
+        // console.log(deleteId);
+      }
+    </script> -->
+  </body>
+</html>
